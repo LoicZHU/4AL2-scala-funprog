@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "format:check": "sbt scalafmtCheckAll",
+    "format:fix": "sbt scalafmt",
+    "lint:check": "sbt scalafix",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7"
+  }
+}

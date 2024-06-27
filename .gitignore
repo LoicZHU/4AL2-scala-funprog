@@ -4,6 +4,7 @@ project/project/target
 .bsp
 
 .idea
+node_modules
 
 # Created by https://www.toptal.com/developers/gitignore/api/scala,macos,windows,linux,intellij,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=scala,macos,windows,linux,intellij,visualstudiocode
