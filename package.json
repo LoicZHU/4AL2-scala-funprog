@@ -1,8 +1,8 @@
 {
   "scripts": {
     "format:check": "sbt scalafmtCheckAll",
-    "format:fix": "sbt scalafmt",
-    "lint:check": "sbt scalafix",
+    "format:fix": "sbt scalafmtAll",
+    "lint:check": "sbt scalafix --error",
     "prepare": "husky"
   },
   "devDependencies": {
