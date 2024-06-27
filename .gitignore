@@ -5,6 +5,9 @@ project/project/target
 
 .idea
 node_modules
+project/.bloop
+project/metals.sbt
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/scala,macos,windows,linux,intellij,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=scala,macos,windows,linux,intellij,visualstudiocode
