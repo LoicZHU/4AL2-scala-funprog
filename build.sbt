@@ -11,6 +11,18 @@ run / fork := true
 run / connectInput := true
 Compile / mainClass := Some("fr.esgi.al.funprog.Main")
 
+/*
+ * build.sbt
+ * SemanticDB is enabled for all sub-projects via ThisBuild scope.
+ * https://www.scala-sbt.org/1.x/docs/sbt-1.3-Release-Notes.html#SemanticDB+support
+ */
+inThisBuild(
+  List(
+    scalaVersion := "3.3.3",
+    semanticdbEnabled := true
+  )
+)
+
 lazy val root = (project in file("."))
   .settings(
     name := "funprog-AL",
