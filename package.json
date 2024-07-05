@@ -1,5 +1,7 @@
 {
   "scripts": {
+    "start": "sbt run",
+    "start:dev": "sbt ~run",
     "format:check": "sbt scalafmtCheckAll",
     "format:fix": "sbt scalafmtAll",
     "lint:check": "sbt scalafix --error",
