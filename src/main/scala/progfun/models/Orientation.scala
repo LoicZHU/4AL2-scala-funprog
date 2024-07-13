@@ -26,10 +26,7 @@ object Orientation {
     case _   => None
   }
 
-  def toChar(orientation: Orientation): Char = orientation match {
-    case North => 'N'
-    case East  => 'E'
-    case South => 'S'
-    case West  => 'W'
+  def toChar(orientation: Orientation): Char = {
+    orientation.shortName
   }
 }

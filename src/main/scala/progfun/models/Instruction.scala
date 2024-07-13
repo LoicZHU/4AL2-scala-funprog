@@ -22,9 +22,7 @@ object Instruction {
     case _   => None
   }
 
-  def toChar(instruction: Instruction): Char = instruction match {
-    case Avancer => 'A'
-    case Gauche  => 'G'
-    case Droite  => 'D'
+  def toChar(instruction: Instruction): Char = {
+    instruction.shortName
   }
 }

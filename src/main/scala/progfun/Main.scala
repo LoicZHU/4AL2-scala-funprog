@@ -1,11 +1,10 @@
 package fr.esgi.al.funprog
 
+import progfun.services.MowerController
+
 @main
 def Main(): Unit = {
   println("🚀 Program is running!")
-  // Le code suivant ne compilera pas.
-  // var tmp = null;
-  // var tmp2 = if (tmp == 1) "yes" else 1
 
-  // println(s"tmp: $tmp, tmp2: $tmp2")
+  MowerController.executeMowers()
 }
