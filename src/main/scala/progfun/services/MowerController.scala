@@ -1,8 +1,10 @@
 package progfun.services
 
+import scala.util._
+
 import progfun.config.AppConfig
 import progfun.models._
-import scala.util._
+import upickle.default._
 
 object MowerController {
 
@@ -27,6 +29,50 @@ object MowerController {
 
             val finalMowers = mowers.map { mower =>
               InstructionService.move(mower, lawn)
+            }
+
+            val mowerOutputs =
+              mowers.zip(finalMowers).map { case (initial, finalMower) =>
+                MowerOutput(
+                  start = PositionOutput(
+                    Coordinate(
+                      initial.position.coordinate.x,
+                      initial.position.coordinate.y
+                    ),
+                    Orientation
+                      .toChar(initial.position.orientation)
+                      .toString
+                  ),
+                  instructions = initial.instructions.map(Instruction.toChar),
+                  end = PositionOutput(
+                    Coordinate(
+                      finalMower.position.coordinate.x,
+                      finalMower.position.coordinate.y
+                    ),
+                    Orientation
+                      .toChar(finalMower.position.orientation)
+                      .toString
+                  )
+                )
+              }
+
+            val lawnOutput = LawnOutput(
+              Coordinate(lawn.topRight.x, lawn.topRight.y),
+              mowerOutputs
+            )
+
+            val jsonString = write(lawnOutput)
+            println(s"JSON output: ${jsonString}")
+            FileService.writeFile(
+              s"${System.getProperty("user.dir")}${config.jsonPath}",
+              jsonString
+            ) match {
+              case Failure(ex) => {
+                println(s"Failed to write JSON output: ${ex.getMessage}")
+              }
+              case Success(_) => {
+                println(s"JSON output written to ${config.jsonPath}")
+              }
             }
 
             finalMowers.foreach { mower =>

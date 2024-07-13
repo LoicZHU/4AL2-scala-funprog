@@ -2,6 +2,7 @@ package progfun.services
 
 import scala.io.Source
 import scala.util.Try
+
 import progfun.models._
 
 object FileService {
@@ -13,6 +14,16 @@ object FileService {
       source.getLines().toList
     } finally {
       source.close()
+    }
+  }
+
+  def writeFile(filePath: String, content: String): Try[Unit] = Try {
+    val writer = new java.io.PrintWriter(filePath, "UTF-8")
+
+    try {
+      writer.write(content)
+    } finally {
+      writer.close()
     }
   }
 

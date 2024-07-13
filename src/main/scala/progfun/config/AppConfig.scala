@@ -1,8 +1,9 @@
 package progfun.config
 
-import progfun.utils.ConfigUtils
+import scala.util.Failure
+import scala.util.Success
 
-import scala.util.{Failure, Success}
+import progfun.utils.ConfigUtils
 
 final case class AppConfig(
     name: String,
