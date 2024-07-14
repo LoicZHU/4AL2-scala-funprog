@@ -1,3 +1,3 @@
 package progfun.models
 
-final case class Lawn(topRight: Coordinate)
+final case class Lawn(topRightBound: Point)

@@ -3,9 +3,9 @@ package progfun.models
 import upickle.default._
 
 final case class MowerOutput(
-    start: PositionOutput,
+    debut: PositionOutput,
     instructions: List[Char],
-    end: PositionOutput)
+    fin: PositionOutput)
 
 object MowerOutput {
   implicit val reader: Reader[MowerOutput] = macroR

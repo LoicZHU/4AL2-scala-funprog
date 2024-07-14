@@ -1,3 +1,3 @@
 package progfun.models
 
-final case class Position(coordinate: Coordinate, orientation: Orientation)
+final case class Position(point: Point, direction: Direction)

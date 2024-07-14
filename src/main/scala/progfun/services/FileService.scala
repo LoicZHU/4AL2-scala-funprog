@@ -39,11 +39,11 @@ object FileService {
           x               <- mowerPosition.headOption.map(_.toInt)
           y               <- mowerPosition.lift(1).map(_.toInt)
           orientationChar <- mowerPosition.lift(2).map(_.head)
-          orientation <- Orientation.fromChar(orientationChar) match {
+          orientation <- Direction.fromChar(orientationChar) match {
             case Some(orientation) => Some(orientation)
             case None              => Some(South)
           }
-        } yield Mower(Position(Coordinate(x, y), orientation), instructions)
+        } yield Mower(Position(Point(x, y), orientation), instructions)
       case _ => None
     }
   }

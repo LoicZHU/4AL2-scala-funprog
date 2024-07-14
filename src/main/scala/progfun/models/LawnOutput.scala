@@ -2,7 +2,7 @@ package progfun.models
 
 import upickle.default._
 
-final case class LawnOutput(topRight: Coordinate, mowers: List[MowerOutput])
+final case class LawnOutput(limite: Point, tondeuses: List[MowerOutput])
 
 object LawnOutput {
   implicit val reader: Reader[LawnOutput] = macroR
