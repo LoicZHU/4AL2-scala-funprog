@@ -8,6 +8,7 @@ node_modules
 project/.bloop/
 project/project/.bloop/
 project/metals.sbt
+tmp/
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/scala,macos,windows,linux,intellij,visualstudiocode
