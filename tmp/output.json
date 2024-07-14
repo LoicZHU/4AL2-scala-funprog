@@ -1,1 +1,0 @@
-{"topRight":{"x":5,"y":5},"mowers":[{"start":{"coordinate":{"x":1,"y":2},"orientation":"N"},"instructions":["G","A","G","A","G","A","G","A","A"],"end":{"coordinate":{"x":1,"y":3},"orientation":"N"}},{"start":{"coordinate":{"x":3,"y":3},"orientation":"E"},"instructions":["A","A","D","A","A","D","A","D","D","A"],"end":{"coordinate":{"x":5,"y":1},"orientation":"E"}}]}
