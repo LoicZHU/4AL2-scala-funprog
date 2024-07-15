@@ -1,5 +1,8 @@
 package progfun.services
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 import scala.annotation._
 import scala.io.Source._
 import scala.util._
@@ -37,8 +40,9 @@ object MowerController {
       case Some(lawnLine) => {
         val lawn = parseLawn(lawnLine)
         val mowers = FileService.parseMowers(lines.drop(1))
+        val lawnOutput = this.getLawnOutput(lawn, mowers)
 
-        this.generateOutputFiles(config, lawn, mowers)
+        this.generateOutputFiles(config, lawnOutput)
       }
     }
   }
@@ -51,23 +55,23 @@ object MowerController {
 
   private def generateOutputFiles(
       config: AppConfig,
-      lawn: Lawn,
-      mowers: List[Mower]
-  ): Unit = {
+      lawnOutput: LawnOutput): Unit = {
+    this.generateJsonFile(config, lawnOutput)
+    this.generateCsvFile(config, lawnOutput)
+    this.generateYamlFile(config, lawnOutput)
+  }
+
+  private def getLawnOutput(lawn: Lawn, mowers: List[Mower]) = {
     val finalMowers = mowers.map { mower =>
       InstructionService.move(mower, lawn)
     }
 
     val mowerOutputs = this.getMowerOutputs(mowers, finalMowers)
 
-    val lawnOutput = LawnOutput(
+    LawnOutput(
       Point(lawn.topRightBound.x, lawn.topRightBound.y),
       mowerOutputs
     )
-
-    this.generateJsonFile(config, lawnOutput)
-    this.generateCsvFile(config, lawnOutput)
-    this.generateYamlFile(config, lawnOutput)
   }
 
   private def getMowerOutputs(
@@ -149,6 +153,36 @@ object MowerController {
     }
   }
 
+  private def logFinalPositionOfMowers(
+      config: AppConfig,
+      lawnOutput: LawnOutput): Unit = {
+    val absoluteDestinationPath = s"${ABSOLUTE_PROJECT_PATH}${config.logPath}"
+    val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+    val logContent = lawnOutput.tondeuses
+      .map { case (mowerOutput) =>
+        val start = mowerOutput.debut
+        val end = mowerOutput.fin
+        val instructions: String = mowerOutput.instructions.mkString("")
+
+        val currentDateTime = LocalDateTime.now()
+        val formattedDateTime = currentDateTime.format(dateTimeFormatter)
+
+        s"[${formattedDateTime}] 🏁 ${start.point.x} ${start.point.y} ${start.direction} (${instructions}): ${end.point.x} ${end.point.y} ${end.direction}\n"
+      }
+      .mkString("")
+
+    FileService.upsertLogFile(
+      absoluteDestinationPath,
+      logContent
+    ) match {
+      case Failure(ex) =>
+        println(s"💩 Failed to log final position: ${ex.getMessage}")
+      case Success(_) =>
+        println("📝 Log done.")
+    }
+  }
+
   def runStreamingMode(config: AppConfig): Unit = {
     println("📡 Streaming mode selected")
     val bufferedSource = stdin.getLines()
@@ -156,9 +190,13 @@ object MowerController {
     println("🗺  Enter the lawn dimensions (e.g. '5 5'):")
     val lawnLine = bufferedSource.next()
     val lawn = parseLawn(lawnLine)
-    val mowers = readUserInputMowers(bufferedSource, List.empty)
 
-    this.generateOutputFiles(config, lawn, mowers.reverse)
+    val reversedMowers =
+      readUserInputMowers(bufferedSource, List.empty).reverse
+    val lawnOutput = this.getLawnOutput(lawn, reversedMowers)
+
+    this.generateOutputFiles(config, lawnOutput)
+    this.logFinalPositionOfMowers(config, lawnOutput)
   }
 
   @tailrec

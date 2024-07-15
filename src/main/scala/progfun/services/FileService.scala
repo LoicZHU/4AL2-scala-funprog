@@ -1,5 +1,7 @@
 package progfun.services
 
+import java.io._
+
 import scala.io.Source
 import scala.util.Try
 
@@ -18,12 +20,27 @@ object FileService {
   }
 
   def writeFile(filePath: String, content: String): Try[Unit] = Try {
-    val writer = new java.io.PrintWriter(filePath, "UTF-8")
+    val writer = PrintWriter(filePath, "UTF-8")
 
     try {
       writer.write(content)
     } finally {
       writer.close()
+    }
+  }
+
+  def upsertLogFile(
+      destinationPath: String,
+      content: String
+  ): Try[Unit] = Try {
+    val fileWriter = FileWriter(destinationPath, true)
+    val printWriter = PrintWriter(fileWriter, true)
+
+    try {
+      printWriter.write(content)
+    } finally {
+      fileWriter.close()
+      printWriter.close()
     }
   }
 

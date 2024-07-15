@@ -6,9 +6,10 @@ import progfun.utils.ConfigUtils
 
 final case class AppConfig(
     name: String,
+    csvPath: String,
     inputPath: String,
     jsonPath: String,
-    csvPath: String,
+    logPath: String,
     yamlPath: String
 )
 
@@ -22,9 +23,10 @@ object AppConfig {
       case Success(config) =>
         AppConfig(
           config.getOrElse("name", "funprog"),
+          config.getOrElse("csvPath", "/tmp/output.csv"),
           config.getOrElse("inputPath", "/tmp/input.txt"),
           config.getOrElse("jsonPath", "/tmp/output.json"),
-          config.getOrElse("csvPath", "/tmp/output.csv"),
+          config.getOrElse("logPath", "/tmp/output.log"),
           config.getOrElse("yamlPath", "/tmp/output.yaml")
         )
     }
