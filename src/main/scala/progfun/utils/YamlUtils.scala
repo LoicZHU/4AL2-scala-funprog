@@ -1,11 +1,12 @@
 package progfun.utils
 
 import progfun.models._
+import progfun.models.outputs._
 
 object YamlUtils {
   def toYaml(lawnOutput: LawnOutput): String = {
     val header =
-      s"limite:\n  x: ${lawnOutput.limite.x}\n  y: ${lawnOutput.limite.y}\n"
+      s"limite:\n  x: ${lawnOutput.limite.x}\n  y: ${lawnOutput.limite.y}"
 
     val mowersYaml = lawnOutput.tondeuses
       .map { case (mower) =>
@@ -29,6 +30,6 @@ object YamlUtils {
       }
       .mkString("\n")
 
-    s"${header}tondeuses:\n${mowersYaml}"
+    s"${header}\ntondeuses:\n${mowersYaml}"
   }
 }

@@ -1,11 +1,12 @@
 package progfun.utils
 
 import progfun.models._
+import progfun.models.outputs._
 
 object CsvUtils {
   def toCsv(lawnOutput: LawnOutput): String = {
     val header =
-      "numéro,début_x,début_y,début_direction,fin_X,fin_Y,fin_direction,instructions"
+      "numéro,début_x,début_y,début_direction,fin_x,fin_y,fin_direction,instructions"
 
     val rows = lawnOutput.tondeuses.zipWithIndex.map { case (mowerOutput, i) =>
       val start = mowerOutput.debut

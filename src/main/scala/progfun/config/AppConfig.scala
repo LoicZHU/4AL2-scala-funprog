@@ -1,7 +1,6 @@
 package progfun.config
 
-import scala.util.Failure
-import scala.util.Success
+import scala.util._
 
 import progfun.utils.ConfigUtils
 
