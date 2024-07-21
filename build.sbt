@@ -51,9 +51,9 @@ val compilerOptions = Seq(
   "-unchecked", // Enable additional warnings where generated code depends on assumptions.
   "-Ysafe-init", // Wrap field accessors to throw an exception on uninitialized access.
   "-Werror", // Fail the compilation if there are any warnings.
-  "-Ycheck-all-patmat",
+//  "-Ycheck-all-patmat", // desactive erreur de compil avec -Yexplicit-nulls
   "-Ycheck-reentrant",
-  "-Yexplicit-nulls",
+//  "-Yexplicit-nulls", // desactive erreur de compil avec -Ycheck-all-patmat
   // Warning settings
   //
   "-Wvalue-discard",
