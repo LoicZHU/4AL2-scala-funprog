@@ -1,6 +1,6 @@
 {
   "name": "funprog",
-  "mode": "full",
+  "mode": "streaming",
   "inputPath": "/tmp/input.txt",
   "jsonPath": "/tmp/output.json",
   "csvPath": "/tmp/output.csv",
