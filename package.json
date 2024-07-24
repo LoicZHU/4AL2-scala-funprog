@@ -5,7 +5,9 @@
     "format:check": "sbt scalafmtCheckAll",
     "format:fix": "sbt scalafmtAll",
     "lint:check": "sbt scalafix --error",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "sbt test",
+    "test:watch": "sbt ~test"
   },
   "devDependencies": {
     "husky": "^9.0.11",

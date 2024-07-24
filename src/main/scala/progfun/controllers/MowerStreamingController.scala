@@ -21,7 +21,7 @@ object MowerStreamingController {
     val bufferedSource = stdin.getLines()
 
     println("🗺  Enter the lawn dimensions (e.g. '5 5'):")
-    val lawnLine = bufferedSource.next()
+    val lawnLine = bufferedSource.next().trim()
     this.checkLawnLine(lawnLine)
 
     val lawn = MowerService.parseLawn(lawnLine)
@@ -34,11 +34,25 @@ object MowerStreamingController {
   }
 
   private def checkLawnLine(lawnLine: String): Unit = {
-    if (lawnLine.nonEmpty) {
-      ()
-    } else {
+    if (lawnLine.isEmpty) {
       println("💩 Lawn dimensions cannot be empty.")
       sys.exit(1)
+    } else {
+      val parts = lawnLine.split(" ")
+      if (parts.length != 2) {
+        println("💩 Lawn dimensions must be in the format 'X Y'.")
+        sys.exit(1)
+      } else {
+        val x = parts(0)
+        val y = parts(1)
+
+        (Try(x.toInt), Try(y.toInt)) match {
+          case (Failure(_), _) | (_, Failure(_)) =>
+            println("💩 Lawn dimensions must be integers.")
+            sys.exit(1)
+          case _ => ()
+        }
+      }
     }
   }
 
@@ -82,7 +96,7 @@ object MowerStreamingController {
     if (!bufferedSource.hasNext) {
       userMowers
     } else {
-      val positionLine = bufferedSource.next()
+      val positionLine = bufferedSource.next().trim()
       if (positionLine.isEmpty) {
         userMowers
       } else {
@@ -91,7 +105,7 @@ object MowerStreamingController {
         if (!bufferedSource.hasNext) {
           userMowers
         } else {
-          val instructionLine = bufferedSource.next()
+          val instructionLine = bufferedSource.next().trim()
           if (instructionLine.isEmpty) {
             userMowers
           } else {
