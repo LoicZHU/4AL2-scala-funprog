@@ -5,8 +5,8 @@ project/project/target
 
 .idea
 node_modules
-project/.bloop/
-project/project/.bloop/
+project/.bloop/**
+project/project/.bloop/**
 project/metals.sbt
 tmp/
 
