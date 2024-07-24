@@ -15,7 +15,7 @@ case object Droite extends Instruction {
 }
 
 object Instruction {
-  def fromChar(character: Char): Option[Instruction] = character match {
+  def fromChar(character: Char): Option[Instruction] = character.toUpper match {
     case 'A' => Some(Avancer)
     case 'G' => Some(Gauche)
     case 'D' => Some(Droite)

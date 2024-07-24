@@ -50,7 +50,16 @@ object MowerController {
   private def parseLawn(line: String): Lawn = {
     val Array(x, y) = line.split(" ").map(_.toInt)
 
-    Lawn(Point(x, y))
+    if (this.areLawnDimensionsInvalid(x, y)) {
+      println("💩 Lawn dimensions must be positive.")
+      sys.exit(1)
+    } else {
+      Lawn(Point(x, y))
+    }
+  }
+
+  private def areLawnDimensionsInvalid(x: Int, y: Int): Boolean = {
+    x < 0 || y < 0
   }
 
   private def generateOutputFiles(
@@ -189,8 +198,12 @@ object MowerController {
 
     println("🗺  Enter the lawn dimensions (e.g. '5 5'):")
     val lawnLine = bufferedSource.next()
-    val lawn = parseLawn(lawnLine)
+    if (lawnLine.isEmpty) {
+      println("💩 Lawn dimensions cannot be empty.")
+      sys.exit(1)
+    }
 
+    val lawn = parseLawn(lawnLine)
     val reversedMowers =
       readUserInputMowers(bufferedSource, List.empty).reverse
     val lawnOutput = this.getLawnOutput(lawn, reversedMowers)
