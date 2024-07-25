@@ -3,8 +3,8 @@ package fr.esgi.al.funprog
 import java.util.Locale
 
 import progfun.config._
+import progfun.controllers._
 import progfun.models._
-import progfun.services._
 
 @main
 def Main(): Unit = {
@@ -17,10 +17,10 @@ def Main(): Unit = {
 def run(config: AppConfig): Unit = {
   config.mode.trim().toUpperCase(Locale.getDefault()) match {
     case Mode.FULL => {
-      MowerController.handleFullMode(config)
+      MowerFullController.handleFullMode(config)
     }
     case Mode.STREAMING => {
-      MowerController.runStreamingMode(config)
+      MowerStreamingController.runStreamingMode(config)
     }
     case _ => {
       println("💩 Mode invalide...")

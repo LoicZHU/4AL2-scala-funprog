@@ -18,7 +18,7 @@ case object West extends Direction {
 }
 
 object Direction {
-  def fromChar(character: Char): Option[Direction] = character match {
+  def fromChar(character: Char): Option[Direction] = character.toUpper match {
     case 'N' => Some(North)
     case 'E' => Some(East)
     case 'S' => Some(South)
