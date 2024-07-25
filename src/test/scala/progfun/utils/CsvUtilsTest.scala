@@ -1,7 +1,7 @@
 package progfun.utils
 
 import progfun.models._
-import progfun.models.outputs.*
+import progfun.models.outputs._
 
 class CsvUtilsTest extends munit.FunSuite {
 
