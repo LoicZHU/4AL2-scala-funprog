@@ -3,13 +3,12 @@ package progfun.controllers
 import scala.util._
 
 import progfun.config._
-import progfun.services.FileService
-import progfun.services.MowerService
-import progfun.utils.FunctionUtils
+import progfun.services._
+import progfun.utils._
 
 object MowerFullController {
 
-  def handleFullMode(config: AppConfig): Unit = {
+  def handle(config: AppConfig): Unit = {
     println("🖲  Full mode selected")
     val fileLines =
       FileService.readFile(

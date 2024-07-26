@@ -1,5 +1,6 @@
 package progfun.services
 
+import scala.annotation.tailrec
 import scala.util._
 
 import progfun.config.AppConfig
@@ -42,6 +43,29 @@ object MowerService {
         x >= 0 && y >= 0
       } catch {
         case _: NumberFormatException => false
+      }
+    }
+  }
+
+  def checkLawnLine(lawnLine: String): Unit = {
+    if (lawnLine.isEmpty) {
+      println("💩 Lawn dimensions cannot be empty.")
+      sys.exit(1)
+    } else {
+      val parts = lawnLine.split(" ")
+      if (parts.length != 2) {
+        println("💩 Lawn dimensions must be in the format 'X Y'.")
+        sys.exit(1)
+      } else {
+        val x = parts(0)
+        val y = parts(1)
+
+        (Try(x.toInt), Try(y.toInt)) match {
+          case (Failure(_), _) | (_, Failure(_)) =>
+            println("💩 Lawn dimensions must be integers.")
+            sys.exit(1)
+          case _ => ()
+        }
       }
     }
   }
@@ -145,6 +169,53 @@ object MowerService {
       }
 
     mowerOutputs
+  }
+
+  @tailrec
+  def readUserInputMowers(
+      bufferedSource: Iterator[String],
+      userMowers: List[Mower]): List[Mower] = {
+    println("📍 Enter the mower initial position (e.g. '1 2 N'):")
+
+    if (!bufferedSource.hasNext) {
+      userMowers
+    } else {
+      val positionLine = bufferedSource.next().trim()
+      if (positionLine.isEmpty) {
+        userMowers
+      } else {
+        println("🧭 Enter the instructions (e.g. 'GAGAGAGAA'):")
+
+        if (!bufferedSource.hasNext) {
+          userMowers
+        } else {
+          val instructionLine = bufferedSource.next().trim()
+          if (instructionLine.isEmpty) {
+            userMowers
+          } else {
+            val mowerOption = for {
+              x               <- positionLine.split(" ").headOption.map(_.toInt)
+              y               <- positionLine.split(" ").lift(1).map(_.toInt)
+              orientationChar <- positionLine.split(" ").lift(2).map(_.head)
+              orientation <- Direction.fromChar(orientationChar) match {
+                case None              => Some(South)
+                case Some(orientation) => Some(orientation)
+              }
+            } yield Mower(
+              Position(Point(x, y), orientation),
+              instructionLine.flatMap(Instruction.fromChar).toList
+            )
+
+            val newAcc = mowerOption match {
+              case None        => userMowers
+              case Some(mower) => mower :: userMowers
+            }
+
+            this.readUserInputMowers(bufferedSource, newAcc)
+          }
+        }
+      }
+    }
   }
 
 }
