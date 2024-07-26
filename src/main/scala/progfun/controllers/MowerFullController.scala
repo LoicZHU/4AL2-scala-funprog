@@ -21,7 +21,7 @@ object MowerFullController {
         println(s"💩 An error occurred: ${ex.getMessage}")
       }
       case Success(lines) => {
-        if (this.areLinesInvalid(lines)) {
+        if (MowerService.areLinesInvalid(lines)) {
           println("💩 The input file is incorrect.")
         } else {
           try {
@@ -32,27 +32,6 @@ object MowerFullController {
             }
           }
         }
-      }
-    }
-  }
-
-  private def areLinesInvalid(lines: List[String]) = {
-    lines.isEmpty || !this.isValidLawnDimensions(lines.headOption.getOrElse(""))
-  }
-
-  private def isValidLawnDimensions(line: String): Boolean = {
-    val parts = line.trim.split(" ")
-
-    if (parts.length != 2) {
-      false
-    } else {
-      try {
-        val x: Int = parts(0).toInt
-        val y: Int = parts(1).toInt
-
-        x >= 0 && y >= 0
-      } catch {
-        case _: NumberFormatException => false
       }
     }
   }

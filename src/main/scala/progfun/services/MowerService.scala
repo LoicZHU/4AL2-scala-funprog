@@ -25,6 +25,27 @@ object MowerService {
     x < 0 || y < 0
   }
 
+  def areLinesInvalid(lines: List[String]): Boolean = {
+    lines.isEmpty || !this.isValidLawnDimensions(lines.headOption.getOrElse(""))
+  }
+
+  private def isValidLawnDimensions(line: String): Boolean = {
+    val parts = line.trim.split(" ")
+
+    if (parts.length != 2) {
+      false
+    } else {
+      try {
+        val x: Int = parts(0).toInt
+        val y: Int = parts(1).toInt
+
+        x >= 0 && y >= 0
+      } catch {
+        case _: NumberFormatException => false
+      }
+    }
+  }
+
   def generateOutputFiles(config: AppConfig, lawnOutput: LawnOutput): Unit = {
     this.generateJsonFile(config, lawnOutput)
     this.generateCsvFile(config, lawnOutput)
