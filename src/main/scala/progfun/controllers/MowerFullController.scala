@@ -24,7 +24,13 @@ object MowerFullController {
         if (this.areLinesInvalid(lines)) {
           println("💩 The input file is incorrect.")
         } else {
-          this.runFullMode(config, lines)
+          try {
+            this.runFullMode(config, lines)
+          } catch {
+            case throwable: Throwable => {
+              println(s"💩 An error occurred: ${throwable.getMessage}")
+            }
+          }
         }
       }
     }

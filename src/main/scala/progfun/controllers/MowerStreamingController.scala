@@ -17,20 +17,26 @@ import progfun.utils.FunctionUtils
 object MowerStreamingController {
 
   def runStreamingMode(config: AppConfig): Unit = {
-    println("📡 Streaming mode selected")
-    val bufferedSource = stdin.getLines()
+    try {
+      println("📡 Streaming mode selected")
+      val bufferedSource = stdin.getLines()
 
-    println("🗺  Enter the lawn dimensions (e.g. '5 5'):")
-    val lawnLine = bufferedSource.next().trim()
-    this.checkLawnLine(lawnLine)
+      println("🗺  Enter the lawn dimensions (e.g. '5 5'):")
+      val lawnLine = bufferedSource.next().trim()
+      this.checkLawnLine(lawnLine)
 
-    val lawn = MowerService.parseLawn(lawnLine)
-    val reversedMowers =
-      this.readUserInputMowers(bufferedSource, List.empty).reverse
-    val lawnOutput = MowerService.getLawnOutput(lawn, reversedMowers)
+      val lawn = MowerService.parseLawn(lawnLine)
+      val reversedMowers =
+        this.readUserInputMowers(bufferedSource, List.empty).reverse
+      val lawnOutput = MowerService.getLawnOutput(lawn, reversedMowers)
 
-    MowerService.generateOutputFiles(config, lawnOutput)
-    this.logFinalPositionOfMowers(config, lawnOutput)
+      MowerService.generateOutputFiles(config, lawnOutput)
+      this.logFinalPositionOfMowers(config, lawnOutput)
+    } catch {
+      case throwable: Throwable => {
+        println(s"💩 An error occurred: ${throwable.getMessage}")
+      }
+    }
   }
 
   private def checkLawnLine(lawnLine: String): Unit = {
