@@ -17,10 +17,10 @@ def Main(): Unit = {
 def run(config: AppConfig): Unit = {
   config.mode.trim().toUpperCase(Locale.getDefault()) match {
     case Mode.FULL => {
-      MowerFullController.handleFullMode(config)
+      MowerFullController.handle(config)
     }
     case Mode.STREAMING => {
-      MowerStreamingController.runStreamingMode(config)
+      MowerStreamingController.handle(config)
     }
     case _ => {
       println("💩 Mode invalide...")
